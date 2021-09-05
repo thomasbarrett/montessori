@@ -130,6 +130,12 @@
                     img.style.backgroundImage =  `url('${url}')`;
                     img.classList.add('img');
                     card.appendChild(img);
+                    del = document.createElement('div');
+                    del.classList.add('delete-icon');
+                    del.addEventListener('click', () => {
+                        card.parentElement.removeChild(card);
+                    })
+                    card.appendChild(del)
                     document.getElementById('gallery').appendChild(card)
                 })
             }
