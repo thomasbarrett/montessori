@@ -15,13 +15,19 @@
             align-items: center;  
             margin: 0 auto;    
             border: 1px solid black;    
-        }    
+        }   
+        
+        .page {
+            width: 100%;
+            min-height: 100vh;
+        }
            
         .card {
             width: 3in;
             height: 3in;
             padding: 16px;
             border: 1px solid black;    
+            position: relative;
         }
 
         .img {
@@ -36,25 +42,58 @@
         #gallery {
             display: flex;
             flex-wrap: wrap;
+            padding: 32px;
         }
 
         body {    
             text-align: center;    
-        }    
+        }
+        .delete-icon {
+            position:absolute;
+            right: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background-image: url("/delete.png");
+            background-size: contain;
+        }   
 
+        header {
+            background-color: rgb(102,209, 253);
+            height: 48px;
+            display: flex;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+            padding: 0;
+        }
         @media print {
-            #drag-zone {
+            header {
+                display: none;
+            }
+            
+            #gallery {
+                padding: 0;
+            }
+
+            .delete-icon {
                 display: none;
             }
         }
         </style>    
     </head>    
     <script src="./heic2any.js"></script>
-    <body>    
-        <div id="drag-zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
-            <p>Drag and drop your files here!</p>
-        </div>
-        <div id="gallery"></div>    
+    <body style="margin: 0; padding: 0">
+        <div class="page" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">    
+            <header>
+                <h2>Montessori Card Creator</h2>
+            </header>
+            <div id="gallery"></div>  
+        </div>  
         <script>    
             function handleDragOver(event) {    
                 event.preventDefault();  
@@ -104,6 +143,12 @@
                     img.style.backgroundImage =  `url('${reader.result}')`;
                     img.classList.add('img');
                     card.appendChild(img);
+                    del = document.createElement('div');
+                    del.classList.add('delete-icon');
+                    del.addEventListener('click', () => {
+                        card.parentElement.removeChild(card);
+                    })
+                    card.appendChild(del)
                     document.getElementById('gallery').appendChild(card)
                 }
             }
